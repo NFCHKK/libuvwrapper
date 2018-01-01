@@ -3,9 +3,9 @@
 #### loop.h, loop.cpp: 
     uvloop class
 #### accept.h, accept.cpp:
-    uvacceptor class, used for listen and accept client
+    uvaccept class, used for listening and accepting clients' connections
 #### connect.h, connect.cpp:
-    uvconnector class, used for client connecting to server, or  server holding connection with clients
+    uvconnect class, used for clients' connecting to server, or  server holding connections with clients
 #### timer.h, timer.cpp:
     uvtimer class, also driven by uvloop
 
