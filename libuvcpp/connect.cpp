@@ -6,6 +6,7 @@ uvconnect::uvconnect()
 	, m_pStream(nullptr)
 	, m_ploop(nullptr)
 	, m_bReconect(false)
+	, m_EvnentHandler(nullptr)
 {
 	m_pAddr.reset((sockaddr_in *)malloc(sizeof(sockaddr_in)));
 }
@@ -42,12 +43,10 @@ void uvconnect::Connect()
 		{
 			pConn->m_bConnectSuccess = false;
 		}
-
-		if (pConn->m_pConncb)
+		if (pConn->m_EvnentHandler)
 		{
-			pConn->m_pConncb(status);
+			pConn->m_EvnentHandler(EV_CONNECT, 0, status);
 		}
-
 	});
 }
 
@@ -57,15 +56,6 @@ bool uvconnect::RegisterConnect(std::shared_ptr<uvloop> ploop)
 	return true;
 }
 
-void uvconnect::SetReadCallback(readcb recb)
-{
-	m_pReadcb = recb;
-}
-
-void uvconnect::SetWriteCallback(writecb wricb)
-{
-	m_pWritecb = wricb;
-}
 
 bool uvconnect::wirteData(char *pbuf, unsigned long len)
 {
@@ -135,32 +125,7 @@ bool uvconnect::CloseConnection()
 	return (uiErr == 0);
 }
 
-void uvconnect::ReadCallback(ssize_t nread, char *buf)
-{
-	if (nread >= 0)
-	{
-		if (m_pReadcb)
-		{
-			//call outer read
-			m_pReadcb(nread, buf);
-		}
-	}
-	else
-	{
-		//stop read
-		//change status ready to reconnect
-		//has internal stoped read
-		m_bConnectSuccess = false;
-	}
-}
 
-void uvconnect::WriteCallback(int status)
-{
-	if (m_pWritecb)
-	{
-		m_pWritecb(status);
-	}
-}
 
 bool uvconnect::StartReadData()
 {
@@ -203,10 +168,9 @@ void uvconnect::ReadStart()
 		uvconnect *pConn = (uvconnect *)tcp->data;
 		if (nread >= 0)
 		{
-			if (pConn->m_pReadcb)
+			if (pConn->m_EvnentHandler)
 			{
-				//call outer read
-				pConn->m_pReadcb(nread, buf->base);
+				pConn->m_EvnentHandler(EV_READ, buf->base, nread);
 			}
 		}
 		else
@@ -215,9 +179,9 @@ void uvconnect::ReadStart()
 			uv_read_stop(pConn->m_pStream.get());
 			pConn->m_bConnectSuccess = false;
 			//change status ready to reconnect
-			if (pConn->m_pReadcb)
+			if (pConn->m_EvnentHandler)
 			{
-				pConn->m_pReadcb(-1, nullptr);
+				pConn->m_EvnentHandler(EV_CLOSE, 0, 0);
 			}
 		}
 	});
@@ -256,12 +220,10 @@ void uvconnect::tcpWrite(std::shared_ptr<stSend> pNewSend)
 				pConn->m_mapSend.erase(it);
 			}
 		}
-
-		if (pConn->m_pWritecb)
+		if (pConn->m_EvnentHandler)
 		{
-			pConn->m_pWritecb(status);
+			pConn->m_EvnentHandler(EV_WRITE, 0, status);
 		}
-
 	});
 
 	assert(uiErr == 0);
@@ -275,7 +237,12 @@ bool uvconnect::RegisterloopAndStream(std::shared_ptr<uvloop> ploop, uv_tcp_t* p
 	return true;
 }
 
-void uvconnect::SetConnectCallback(conncb concb)
+void uvconnect::SetEventHandler(eventcb evcb)
 {
-	m_pConncb = concb;
+	m_EvnentHandler = evcb;
+}
+
+bool uvconnect::IsConnected()
+{
+	return m_bConnectSuccess;
 }

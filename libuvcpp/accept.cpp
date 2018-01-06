@@ -64,7 +64,7 @@ void uvaccept::ServerListenStart()
 	});
 }
 
-void uvaccept::SetConnectCallback(connectcb cocb)
+void uvaccept::SetNewConnectCallback(NewConnectcb cocb)
 {
 	m_pConnectcb = cocb;
 }

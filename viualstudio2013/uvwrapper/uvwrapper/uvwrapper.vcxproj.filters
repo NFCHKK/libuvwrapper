@@ -99,6 +99,12 @@
     <ClInclude Include="..\..\..\libuvcpp\timer.h">
       <Filter>libuvcpp</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\libuvcpp\tcpclient.h">
+      <Filter>libuvcpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\libuvcpp\tcpserver.h">
+      <Filter>libuvcpp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -120,6 +126,12 @@
       <Filter>libuvcpp</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\libuvcpp\timer.cpp">
+      <Filter>libuvcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\libuvcpp\tcpclient.cpp">
+      <Filter>libuvcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\libuvcpp\tcpServer.cpp">
       <Filter>libuvcpp</Filter>
     </ClCompile>
   </ItemGroup>

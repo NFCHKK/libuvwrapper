@@ -143,3 +143,8 @@ unsigned int uvloop::AddReq(eType eEeventType, reqcb pCallback)
 	}
 }
 
+bool uvloop::IsRunning()
+{
+	return m_bRunning;
+}
+

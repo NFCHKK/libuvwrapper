@@ -105,6 +105,8 @@
     <ClInclude Include="..\..\..\libuvcpp\accept.h" />
     <ClInclude Include="..\..\..\libuvcpp\connect.h" />
     <ClInclude Include="..\..\..\libuvcpp\loop.h" />
+    <ClInclude Include="..\..\..\libuvcpp\tcpclient.h" />
+    <ClInclude Include="..\..\..\libuvcpp\tcpserver.h" />
     <ClInclude Include="..\..\..\libuvcpp\timer.h" />
     <ClInclude Include="..\..\..\util\SafeBuffer.h" />
     <ClInclude Include="stdafx.h" />
@@ -120,6 +122,16 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\..\libuvcpp\loop.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\libuvcpp\tcpclient.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\..\libuvcpp\tcpServer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>

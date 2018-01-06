@@ -67,6 +67,7 @@ public:
 	~uvloop();
 	void run();
 	void stop();
+	bool IsRunning();
 
 	unsigned int AddReq(eType eEeventType, reqcb pConn);
 	

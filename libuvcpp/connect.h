@@ -34,8 +34,17 @@ typedef struct tagSendst
 	uv_buf_t tbuf;
 }stSend;
 
+typedef enum
+{
+	EV_CONNECT,
+	EV_READ,
+	EV_WRITE,
+	EV_CLOSE,
+}evType;
+
 class  uvaccept;
 
+typedef std::function<void(evType, char *, ssize_t nread)>  eventcb;
 typedef std::function<void(ssize_t nread, char *buf)> readcb;
 typedef std::function<void(int status)> writecb;
 typedef std::function<void(int status)> conncb;
@@ -53,14 +62,13 @@ public:
 
 	bool CloseConnection();
 
-	void SetReadCallback(readcb recb);
-	void SetWriteCallback(writecb wricb);
-	void SetConnectCallback(conncb concb);
+	void SetEventHandler(eventcb evcb);
 
 	bool StartReadData();
 	bool StopReadData();
 	bool wirteData(char *pbuf, unsigned long len);
 
+	bool IsConnected();
 	bool Reconnnect();
 
 	bool RegisterloopAndStream(std::shared_ptr<uvloop> ploop, uv_tcp_t*  pStream);
@@ -69,9 +77,7 @@ public:
 
 	bool m_bReconect;
 
-	readcb m_pReadcb;
-	writecb m_pWritecb;
-	conncb m_pConncb;
+	eventcb m_EvnentHandler;
 
 	std::shared_ptr<uvloop> m_ploop;
 
@@ -90,8 +96,6 @@ private:
 
 	void CloseConnect();
 
-	void ReadCallback(ssize_t nread, char *buf);
-	void WriteCallback(int status);
 
 	
 

@@ -28,7 +28,7 @@
 #define _stdcall 
 #endif
 
-typedef std::function<void(std::shared_ptr<uvconnect>)> connectcb;
+typedef std::function<void(std::shared_ptr<uvconnect>)> NewConnectcb;
 class uvaccept:public std::enable_shared_from_this<uvaccept>
 {
 public:
@@ -37,13 +37,13 @@ public:
 	void SetIPAndPort(char *phost = "0.0.0.0", unsigned int port = 12396);
 	bool RegisterAccept(std::shared_ptr<uvloop> ploop);
 
-	void SetConnectCallback(connectcb cocb);
+	void SetNewConnectCallback(NewConnectcb cocb);
 
 	bool listen();
 
 	std::shared_ptr<uvloop> m_ploop;
 
-	connectcb m_pConnectcb;
+	NewConnectcb m_pConnectcb;
 
 	std::shared_ptr<uv_tcp_t> m_pServer;
 private:
