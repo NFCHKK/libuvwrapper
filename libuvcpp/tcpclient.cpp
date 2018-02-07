@@ -1,4 +1,4 @@
-#include "tcpclient.h"
+#include "tcpClient.h"
 
 
 TcpClient::TcpClient()

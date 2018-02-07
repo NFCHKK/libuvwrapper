@@ -1,16 +1,13 @@
-// uvwrapper.cpp : Defines the entry point for the console application.
-//
 
-#include "stdafx.h"
 #include <memory>
 #include <iostream>
 #include <vector>
-#include "loop.h"
-#include "accept.h"
-#include "connect.h"
-#include "timer.h"
-#include "tcpserver.h"
-#include "tcpclient.h"
+#include "./libuvcpp/loop.h"
+#include "./libuvcpp/accept.h"
+#include "./libuvcpp/connect.h"
+#include "./libuvcpp/timer.h"
+#include "./libuvcpp/tcpServer.h"
+#include "./libuvcpp/tcpClient.h"
 
 
 std::vector<std::shared_ptr<uvconnect>> vReceivedCon;
@@ -21,7 +18,7 @@ void OnHandlerCallback(evType eType, char *buf, ssize_t nread)
 	switch (eType)
 	{
 	case EV_READ:
-		std::cout << buf << std::endl;
+		//std::cout << "hello" << std::endl;
 	case EV_WRITE:
 		// ignore
 		break;
@@ -31,7 +28,7 @@ void OnHandlerCallback(evType eType, char *buf, ssize_t nread)
 	default:
 		break;
 	}
-	
+
 }
 
 void OnNewConnection(std::shared_ptr<uvconnect> pConn)
@@ -45,7 +42,7 @@ void OnNewConnection(std::shared_ptr<uvconnect> pConn)
 	pConn->StartReadData();
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+int main(int argc, char* argv[])
 {
 	//To create server
 	std::shared_ptr<TcpServer> pTcp(new TcpServer);
@@ -56,7 +53,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	//pTcpClient->ConnectToServer("127.0.0.1", 12396, OnHandlerCallback);
 	//pTcpClient->WriteData("hello, world!", strlen("hello, world!"));
 
-	system("pause");
+	//system("pause");
+	std::cout << "Please waint input " << std::endl;
+	int i ;
+	std::cin >> i;
 	return 0;
 }
 
