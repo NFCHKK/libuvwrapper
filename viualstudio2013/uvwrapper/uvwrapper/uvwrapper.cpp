@@ -11,9 +11,13 @@
 #include "timer.h"
 #include "tcpserver.h"
 #include "tcpclient.h"
+#include <windows.h>
+#include <Thread>
 
 
 std::vector<std::shared_ptr<uvconnect>> vReceivedCon;
+
+LONGLONG datalen = 0;
 
 
 void OnHandlerCallback(evType eType, char *buf, ssize_t nread)
@@ -21,7 +25,7 @@ void OnHandlerCallback(evType eType, char *buf, ssize_t nread)
 	switch (eType)
 	{
 	case EV_READ:
-		std::cout << buf << std::endl;
+		InterlockedExchangeAdd64(&datalen, (nread + 40));
 	case EV_WRITE:
 		// ignore
 		break;
@@ -56,6 +60,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	//pTcpClient->ConnectToServer("127.0.0.1", 12396, OnHandlerCallback);
 	//pTcpClient->WriteData("hello, world!", strlen("hello, world!"));
 
+	std::thread t1([]()
+	{
+		while (1) 
+		{
+			Sleep(1000);
+			std::cout << "NetWorkSpeed: " << (double)InterlockedExchange64(&datalen, 0) / (double)(1024 * 1024) << " M/s " << std::endl;
+		}
+
+	});
 	system("pause");
 	return 0;
 }

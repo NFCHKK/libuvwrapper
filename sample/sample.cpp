@@ -2,12 +2,12 @@
 #include <memory>
 #include <iostream>
 #include <vector>
-#include "./libuvcpp/loop.h"
-#include "./libuvcpp/accept.h"
-#include "./libuvcpp/connect.h"
-#include "./libuvcpp/timer.h"
-#include "./libuvcpp/tcpServer.h"
-#include "./libuvcpp/tcpClient.h"
+#include "../libuvcpp/loop.h"
+#include "../libuvcpp/accept.h"
+#include "../libuvcpp/connect.h"
+#include "../libuvcpp/timer.h"
+#include "../libuvcpp/tcpServer.h"
+#include "../libuvcpp/tcpClient.h"
 
 
 std::vector<std::shared_ptr<uvconnect>> vReceivedCon;
